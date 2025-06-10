@@ -64,13 +64,21 @@
       pointer-events: none;
       z-index: 0;
     }
-    .flower {
+    .flower, .cloud, .bird, .butterfly {
       position: absolute;
       animation: fall 10s linear infinite;
     }
     @keyframes fall {
       0% { transform: translateY(-10%); opacity: 1; }
       100% { transform: translateY(110%); opacity: 0; }
+    }
+    .choice {
+      margin: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: #ffccf9;
+      border-radius: 1rem;
+      display: inline-block;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -82,13 +90,11 @@
     <p>Ini ada sesuatu spesial dari Zan buat kamu 😄</p>
     <button class="start-btn" onclick="showChat()">Klik di sini</button>
 
-    <div class="chat-box" id="chat">
-      <!-- Bubble Chat Kosong, nanti kamu isi -->
-    </div>
+    <div class="chat-box" id="chat"></div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
   <script>
-    // Mode Siang/Malam Otomatis
     const hour = new Date().getHours();
     if (hour >= 6 && hour <= 18) {
       document.body.classList.add('day');
@@ -96,13 +102,69 @@
       document.body.classList.add('night');
     }
 
-    // Tampilkan chat + efek konfeti dan balon
     function showChat() {
       document.querySelector('.chat-box').style.display = 'block';
       launchConfetti();
+      setTimeout(() => showBubble('Zan', 'Haiii kamuu yang namanya dea,cie cieee lagi baca text aku pasti yah ? Wkwk'), 500);
+      setTimeout(() => showChoices(), 2000);
     }
 
-    // Efek bunga/awan/burung/kupu-kupu
+    function showChoices() {
+      const box = document.getElementById('chat');
+      const choiceA = document.createElement('div');
+      const choiceB = document.createElement('div');
+
+      choiceA.className = 'bubble dea choice';
+      choiceA.innerText = 'Wkwkwk tau banget lagi';
+      choiceA.onclick = () => handleChoice('A');
+
+      choiceB.className = 'bubble dea choice';
+      choiceB.innerText = 'Ah ngga kok';
+      choiceB.onclick = () => {
+        choiceB.remove();
+        choiceA.remove();
+        showNextDialog();
+      };
+
+      box.appendChild(choiceA);
+      box.appendChild(choiceB);
+    }
+
+    function handleChoice(choice) {
+      document.querySelectorAll('.choice').forEach(el => el.remove());
+      showNextDialog();
+    }
+
+    function showNextDialog() {
+      setTimeout(() => showBubble('Zan', 'Iyaa dong tau,kan aku cenayang wkwk. Oh iyaa btw kamu itu special kek martabak😚'), 500);
+      setTimeout(() => showBubble('Dea', 'Ah masa sih yang wkwk'), 2000);
+      setTimeout(() => showBubble('Zan', 'So daripada aku basa basi. Kamu mau ga jadi calon istri aku ??? Nyahahaha ~'), 4000);
+      setTimeout(() => showCTA(), 6000);
+    }
+
+    function showBubble(sender, text) {
+      const box = document.getElementById('chat');
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble ' + (sender === 'Zan' ? 'zan' : 'dea');
+      bubble.innerText = text;
+      const clear = document.createElement('div');
+      clear.className = 'clear';
+      box.appendChild(bubble);
+      box.appendChild(clear);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function showCTA() {
+      const box = document.getElementById('chat');
+      const button = document.createElement('button');
+      button.innerText = 'Jawab via WhatsApp';
+      button.className = 'start-btn';
+      button.onclick = () => {
+        window.open('https://wa.me/6285823001496?text=Hai%20Zan%2C%20aku%20udah%20baca%20halaman%20kamu%20nih%20🥰', '_blank');
+      };
+      box.appendChild(button);
+    }
+
     const icons = ['🌸', '☁️', '🕊️', '🦋'];
     for (let i = 0; i < 30; i++) {
       const el = document.createElement('div');
@@ -115,7 +177,6 @@
       document.getElementById('effect-container').appendChild(el);
     }
 
-    // Efek konfeti & balon
     function launchConfetti() {
       const jsConfetti = new JSConfetti();
       jsConfetti.addConfetti({
@@ -125,6 +186,5 @@
       });
     }
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
 </body>
 </html>
