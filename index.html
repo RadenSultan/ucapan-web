@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Halaman Spesial untuk Dea</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      transition: background 1s;
+    }
+    .day {
+      background: linear-gradient(to bottom, #aee1f9, #ffffff);
+      color: #333;
+    }
+    .night {
+      background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+      color: #f1f1f1;
+    }
+    .container {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+    .start-btn {
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      border: none;
+      background: #ff69b4;
+      color: white;
+      border-radius: 2rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .start-btn:hover {
+      background: #ff1493;
+    }
+    .chat-box {
+      max-width: 500px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: rgba(255,255,255,0.1);
+      border-radius: 1rem;
+      display: none;
+    }
+    .bubble {
+      padding: 0.8rem 1rem;
+      margin: 0.5rem;
+      border-radius: 1rem;
+      max-width: 80%;
+      display: inline-block;
+    }
+    .zan { background: #dcf8c6; float: right; }
+    .dea { background: #f1f0f0; float: left; }
+    .clear { clear: both; }
+    .effect {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .flower {
+      position: absolute;
+      animation: fall 10s linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-10%); opacity: 1; }
+      100% { transform: translateY(110%); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div id="effect-container" class="effect"></div>
+
+  <div class="container">
+    <h1>Hai Dea 👋</h1>
+    <p>Ini ada sesuatu spesial dari Zan buat kamu 😄</p>
+    <button class="start-btn" onclick="showChat()">Klik di sini</button>
+
+    <div class="chat-box" id="chat">
+      <!-- Bubble Chat Kosong, nanti kamu isi -->
+    </div>
+  </div>
+
+  <script>
+    // Mode Siang/Malam Otomatis
+    const hour = new Date().getHours();
+    if (hour >= 6 && hour <= 18) {
+      document.body.classList.add('day');
+    } else {
+      document.body.classList.add('night');
+    }
+
+    // Tampilkan chat + efek konfeti dan balon
+    function showChat() {
+      document.querySelector('.chat-box').style.display = 'block';
+      launchConfetti();
+    }
+
+    // Efek bunga/awan/burung/kupu-kupu
+    const icons = ['🌸', '☁️', '🕊️', '🦋'];
+    for (let i = 0; i < 30; i++) {
+      const el = document.createElement('div');
+      el.textContent = icons[Math.floor(Math.random() * icons.length)];
+      el.style.left = Math.random() * 100 + '%';
+      el.style.fontSize = (Math.random() * 20 + 20) + 'px';
+      el.style.top = '-10%';
+      el.className = 'flower';
+      el.style.animationDuration = (Math.random() * 10 + 5) + 's';
+      document.getElementById('effect-container').appendChild(el);
+    }
+
+    // Efek konfeti & balon
+    function launchConfetti() {
+      const jsConfetti = new JSConfetti();
+      jsConfetti.addConfetti({
+        emojis: ['🎈', '🎉', '💖'],
+        emojiSize: 50,
+        confettiNumber: 80,
+      });
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+</body>
+</html>
